@@ -9,3 +9,10 @@ Using multimedia computing technologies, create a rudimentary image analysis sys
 
 Datase:
 Using the JSTR annotated chest x-ray dataset, available here: http://www.jsrt.or.jp/jsrt-db/eng.php
+
+Options for running program:
+
+-v increases debug output
+-f what file you wish to run on
+-d What directory of files you want to run on (unsupported currently)
+
