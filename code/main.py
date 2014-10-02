@@ -1,8 +1,6 @@
 import getopt
 import sys
-
 from matplotlib import pyplot as plt
-
 import imageReader
 import imageProces
 import config
@@ -15,7 +13,7 @@ def main(argv):
         print str(err)
         usage()
         sys.exit(2)
-    if argv.__len__() <=1:
+    if argv.__len__() <= 1:
         usage()
         sys.exit(2)
 
@@ -23,41 +21,32 @@ def main(argv):
         if o == "-v":
             config.verbose = True
         if o == "-f":
-            imageList = imageReader.readFile(a)
+            imageList = imageReader.read_file(a)
         elif o in ("-h", "--help"):
             usage()
             sys.exit()
         elif o in ("-d"):
-            imageList = imageReader.readDir(a)
+            #imageList = imageReader.readDir(a)
             print 'Directories are not supported yet'
             sys.exit(2)
 
     for img in imageList:
-        processedImages = imageProces.proces(img)
+        processedImages = imageProces.process_image(img)
 
-    render(processedImages)
+    render_image_on_screen(processedImages)
 
 
-def render(processedImages):
+def render_image_on_screen(processedImages):
     if config.verbose:
         print 'attempting to render'
-
-        #sanity check below
-        # import cv2
-        # print sys.argv[3]
-        # path = sys.argv[3]
-        # import os.path
-        # print str(os.path.isfile(sys.argv[3]))
-        # processedImages = cv2.imread(sys.argv[3],0)
-
-
     plt.imshow(processedImages)
     plt.title('Original Image'), plt.xticks([]), plt.yticks([])
     plt.show()
 
-    im = array(Image.open('sample.jpg'))
 
 def usage():
-    print 'test.py -f <inputfile>  '
+    print '<name>.py -f <inputfile>  to process a file'
+    print '<name>.py -v to increase debugging output'
+    print '<name>.py -d to process a directory full of images'
 
 if __name__ == '__main__':   main(sys.argv[1:])

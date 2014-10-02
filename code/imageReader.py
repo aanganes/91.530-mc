@@ -2,7 +2,7 @@ __author__ = 'tmlewis'
 import cv2
 import config
 
-def readFile(path):
+def read_file(path):
     if config.verbose:
         print 'Reading in image: ' + str(path)
 
