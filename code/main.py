@@ -8,7 +8,7 @@ import config
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, "vhf:d:")
+        opts, args = getopt.getopt(argv, "vhf:d:r")
     except getopt.GetoptError as err:
         print str(err)
         usage()
@@ -19,21 +19,25 @@ def main(argv):
 
     for o, a in opts:
         if o == "-v":
+            print 'verbose mode'
             config.verbose = True
+        if o == "-r":
+            config.render = True
         if o == "-f":
             imageList = imageReader.read_file(a)
         elif o in ("-h", "--help"):
             usage()
             sys.exit()
         elif o in ("-d"):
-            #imageList = imageReader.readDir(a)
+            imageList = imageReader.read_directory(a)
             print 'Directories are not supported yet'
             sys.exit(2)
 
     for img in imageList:
         processedImages = imageProces.process_image(img)
 
-    render_image_on_screen(processedImages)
+    if config.render:
+        render_image_on_screen(processedImages)
 
 
 def render_image_on_screen(processedImages):
