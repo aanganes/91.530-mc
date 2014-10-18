@@ -13,6 +13,29 @@ from PyQt4 import QtCore, QtGui
 import config
 
 
+def write_out(imageDic):
+    if config.verbose:
+        print 'writing images to disk'
+        print 'checking to see if output directory exists'
+    dir = os.path.dirname(__file__)
+    output_path = os.path.join(dir, config.output_dir)
+    if os.path.exists(output_path):
+        if config.verbose:
+            print 'it does'
+    else:
+        if config.verbose:
+            print 'it does not'
+        os.makedirs(output_path)
+        if config.verbose:
+            print 'Created output Path'
+    for key in imageDic.keys():
+        path, filename = os.path.split(key)
+        myPath = os.path.join(config.output_dir, filename)
+        if config.verbose:
+            print 'write out image: ' + str(myPath)
+        cv2.imwrite(myPath, imageDic[key])
+
+
 def main(argv):
     try:
         opts, args = getopt.getopt(argv, "vho:f:d:r")
@@ -51,27 +74,9 @@ def main(argv):
         imageDic[key] = processedImage
 
     if config.write_out:
-        if config.verbose:
-            print 'writing images to disk'
-            print 'checking to see if output directory exists'
-        dir = os.path.dirname(__file__)
-        output_path = os.path.join(dir, config.output_dir)
-        if os.path.exists(output_path):
-            if config.verbose:
-                print 'it does'
-        else:
-            if config.verbose:
-                print 'it does not'
-            os.makedirs(output_path)
-            if config.verbose:
-                print 'Created output Path'
-        for key in imageDic.keys():
-            path, filename = os.path.split(key)
-            cv2.imwrite(os.path.join(config.output_dir,filename),imageDic[key])
+        write_out(imageDic)
 
-
-
-#    if config.render:
+        #    if config.render:
 #        render_image_on_screen(imageDic[0])
 
 
